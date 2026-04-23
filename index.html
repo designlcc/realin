@@ -328,8 +328,8 @@ body {
   <div class="logo">Real<span style="color:var(--red)">In</span></div>
   <div class="tagline">The honest professional network</div>
   <div class="nav-right">
-    <button class="btn">Sign in</button>
-    <button class="btn primary">Share your truth</button>
+    <a href="https://buy.stripe.com/aFa14n6pMguDft44RP9bO0f" target="_blank" class="btn" style="text-decoration:none;">☕ Buy me a coffee</a>
+    <button class="btn primary" onclick="openSubmitForm()">Share your truth</button>
   </div>
 </div>
 
@@ -344,7 +344,7 @@ body {
 
   <div class="composer">
     <div class="comp-av"></div>
-    <input class="comp-input" placeholder="What's the real story behind your milestone?" />
+    <input class="comp-input" id="compose-input" placeholder="What's the real story behind your milestone?" readonly style="cursor:pointer;" />
   </div>
 
   <div class="section-label">Recent confessions</div>
@@ -1379,6 +1379,50 @@ body {
 </div>
 
 
+<!-- Submission form modal -->
+<div id="submit-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(28,27,25,0.5);align-items:center;justify-content:center;padding:20px;" onclick="closeSubmitForm(event)">
+  <div style="background:#FDFCFA;border-radius:20px;padding:28px 24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;">
+    <div style="margin-bottom:20px;">
+      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:18px;font-weight:700;color:#1C1B19;margin-bottom:6px;">Share your truth</div>
+      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:13px;color:#9A9690;line-height:1.6;">Your story will be anonymised before publishing. We'll rewrite it to protect your identity — but keep the truth intact.</div>
+    </div>
+
+    <form id="submit-form" action="https://formspree.io/f/xlgaokaz" method="POST">
+      <div style="margin-bottom:16px;">
+        <label style="font-family:'Cabinet Grotesk',sans-serif;font-size:12px;font-weight:500;color:#4A4843;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:6px;">Your story *</label>
+        <textarea name="story" required placeholder="What's the real story behind your milestone? The promotion with no raise. The 18 months nobody knows about. The thing you'd never post on LinkedIn." style="font-family:'Cabinet Grotesk',sans-serif;width:100%;min-height:140px;border:1px solid #E8E6E2;border-radius:12px;padding:12px 14px;font-size:14px;color:#1C1B19;background:#F7F4EF;outline:none;resize:vertical;line-height:1.6;"></textarea>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-family:'Cabinet Grotesk',sans-serif;font-size:12px;font-weight:500;color:#4A4843;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:6px;">Context <span style="color:#9A9690;font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+        <input name="context" type="text" placeholder="e.g. 6 years in tech, mid-level manager, London" style="font-family:'Cabinet Grotesk',sans-serif;width:100%;border:1px solid #E8E6E2;border-radius:12px;padding:10px 14px;font-size:14px;color:#1C1B19;background:#F7F4EF;outline:none;" />
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <label style="font-family:'Cabinet Grotesk',sans-serif;font-size:12px;font-weight:500;color:#4A4843;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:6px;">Your name <span style="color:#9A9690;font-weight:400;text-transform:none;letter-spacing:0;">(optional — won't be published)</span></label>
+        <input name="name" type="text" placeholder="Only used to reply to you if needed" style="font-family:'Cabinet Grotesk',sans-serif;width:100%;border:1px solid #E8E6E2;border-radius:12px;padding:10px 14px;font-size:14px;color:#1C1B19;background:#F7F4EF;outline:none;" />
+      </div>
+
+      <div style="background:#F7F4EF;border-radius:10px;padding:12px 14px;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;">
+        <span style="font-size:16px;flex-shrink:0;">🔒</span>
+        <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:12px;color:#9A9690;line-height:1.6;">Your submission is anonymous. We'll rewrite names, companies, and identifying details before publishing. You'll be in good company.</div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button type="button" onclick="closeSubmitFormDirect()" style="font-family:'Cabinet Grotesk',sans-serif;flex:1;font-size:13px;font-weight:500;background:none;border:1px solid #E8E6E2;border-radius:100px;padding:11px;cursor:pointer;color:#4A4843;">Cancel</button>
+        <button type="submit" style="font-family:'Cabinet Grotesk',sans-serif;flex:2;font-size:13px;font-weight:600;background:#1C1B19;border:none;border-radius:100px;padding:11px;cursor:pointer;color:white;">Send my story</button>
+      </div>
+    </form>
+
+    <div id="form-success" style="display:none;text-align:center;padding:20px 0;">
+      <div style="font-size:32px;margin-bottom:12px;">🙏</div>
+      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:16px;font-weight:600;color:#1C1B19;margin-bottom:8px;">Thank you for sharing.</div>
+      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:13px;color:#9A9690;line-height:1.6;">We'll anonymise your story and add it to the feed. The feelings will stay intact.</div>
+      <button onclick="closeSubmitFormDirect()" style="font-family:'Cabinet Grotesk',sans-serif;margin-top:20px;font-size:13px;font-weight:500;background:#1C1B19;color:white;border:none;border-radius:100px;padding:10px 24px;cursor:pointer;">Close</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- Share menu -->
 <div id="share-menu" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(28,27,25,0.5);align-items:flex-end;justify-content:center;" onclick="closeShareMenu(event)">
@@ -1586,6 +1630,43 @@ function copyFromMenu() {
 
 
 
+
+// ── COMPOSE INPUT ──
+document.getElementById('compose-input').addEventListener('click', openSubmitForm);
+
+// ── SUBMIT FORM ──
+function openSubmitForm() {
+  document.getElementById('submit-overlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeSubmitForm(e) {
+  if (e.target === document.getElementById('submit-overlay')) closeSubmitFormDirect();
+}
+function closeSubmitFormDirect() {
+  document.getElementById('submit-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('submit-form').style.display = 'block';
+  document.getElementById('form-success').style.display = 'none';
+  document.getElementById('submit-form').reset();
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('submit-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const res = await fetch('https://formspree.io/f/xlgaokaz', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      }
+    } catch(err) {}
+  });
+});
 
 function showToast(msg) {
   const t = document.getElementById('toast');
